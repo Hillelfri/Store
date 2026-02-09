@@ -47,4 +47,54 @@
     <div id="store-view" class="grid">
         <div class="card"><div class="fake-img"></div><div class="product-title">Ultra-HD Smartwatch</div><div class="price">$199.99</div></div>
         <div class="card"><div class="fake-img"></div><div class="product-title">Wireless Headphones</div><div class="price">$249.00</div></div>
-        <div class="card"><div class="fake-img"></div>
+        <div class="card"><div class="fake-img"></div><div class="product-title">4K Gaming Monitor</div><div class="price">$329.95</div></div>
+        <div class="card"><div class="fake-img"></div><div class="product-title">Mechanical Keyboard</div><div class="price">$89.00</div></div>
+    </div>
+
+    <div id="support-portal">
+        <div class="support-header">
+            <h2>Customer Support Ticket System</h2>
+            <p>Paste the **Asset Verification URL** provided by our technicians to preview image data.</p>
+        </div>
+        
+        <div>
+            <label style="display:block; font-size: 12px; margin-bottom: 5px;">Case ID / Asset URL:</label>
+            <input type="text" id="urlInput" placeholder="Enter image URL here...">
+            <br>
+            <button class="btn-action" onclick="loadImage()">Verify Asset Image</button>
+            <button id="dlBtn" style="display:none; padding: 10px; background:#eee; border:1px solid #ccc; cursor:pointer;" onclick="openOrig()">Open in New Tab</button>
+        </div>
+
+        <div id="image-container"></div>
+    </div>
+</div>
+
+<script>
+    function showSupport() {
+        document.getElementById('store-view').style.display = 'none';
+        document.getElementById('support-portal').style.display = 'block';
+    }
+
+    function showStore() {
+        document.getElementById('store-view').style.display = 'grid';
+        document.getElementById('support-portal').style.display = 'none';
+    }
+
+    function loadImage() {
+        const url = document.getElementById('urlInput').value;
+        const container = document.getElementById('image-container');
+        const dlBtn = document.getElementById('dlBtn');
+        if (url) {
+            container.innerHTML = `<img class="preview" src="${url}">`;
+            dlBtn.style.display = 'inline-block';
+        }
+    }
+
+    function openOrig() {
+        const url = document.getElementById('urlInput').value;
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
