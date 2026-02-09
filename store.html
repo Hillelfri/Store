@@ -3,40 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElectroTech | Support Portal</title>
+    <title>ElectroTech | Premium Electronics Store</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
-        header { background: #232f3e; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-links { display: flex; gap: 20px; font-size: 14px; color: white; }
-        .nav-links span { cursor: pointer; color: white; text-decoration: none; }
-        .nav-links span:hover { text-decoration: underline; }
+        /* Base Styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
         
-        .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        /* Header & Navigation */
+        header { background: #232f3e; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .logo { height: 50px; cursor: pointer; }
+        .nav-links { display: flex; gap: 25px; font-size: 14px; color: white; }
+        .nav-links span { cursor: pointer; transition: 0.2s; }
+        .nav-links span:hover { color: #ff9900; }
+        .active-link { color: #ff9900; font-weight: bold; }
+
+        /* Main Container */
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
         
-        /* The Secret Support Section */
-        #support-portal { display: none; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .support-header { border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 10px; }
+        /* Store Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
         
-        input { width: 350px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; }
-        .btn-action { padding: 10px 20px; background: #f0c14b; border: 1px solid #a88734; cursor: pointer; border-radius: 3px; font-weight: bold; }
+        /* Product Cards */
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .product-img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; }
+        .product-title { font-size: 15px; color: #007185; font-weight: 600; margin-bottom: 8px; cursor: pointer; }
+        .product-title:hover { color: #c7511f; }
+        .price { color: #B12704; font-size: 20px; font-weight: bold; }
+        .stock-status { font-size: 12px; margin-top: 5px; }
+
+        /* Hidden Support Portal (The Viewer) */
+        #support-portal { display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .support-header { border-bottom: 2px solid #f0f0f0; margin-bottom: 25px; padding-bottom: 15px; }
+        .support-header h2 { margin: 0; color: #232f3e; }
         
-        img.preview { max-width: 100%; margin-top: 20px; border-radius: 4px; border: 1px solid #ddd; }
-        
-        /* Product Styles */
-        .card { background: white; padding: 15px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .fake-img { width: 100%; height: 180px; background: #eee; border-radius: 4px; margin-bottom: 10px; }
-        .price { color: #B12704; font-size: 18px; font-weight: bold; }
-        .product-title { font-size: 14px; color: #007185; }
+        .input-group { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        input[type="text"] { width: 70%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn-main { padding: 12px 25px; background: #f0c14b; border: 1px solid #a88734; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .btn-main:hover { background: #e2b13c; }
+        .btn-sec { padding: 12px 20px; background: #eee; border: 1px solid #ccc; cursor: pointer; border-radius: 4px; margin-left: 10px; display: none; }
+
+        /* Preview Image Area */
+        #image-container { margin-top: 30px; text-align: center; }
+        .unshaded-preview { max-width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="logo.png" alt="ElectroTech" style="height: 50px; cursor: pointer;" onclick="showStore()">
+    <img src="logo.png" alt="ElectroTech Logo" class="logo" onclick="showStore()">
     <div class="nav-links">
-        <span onclick="showStore()">Deals</span>
-        <span onclick="showSupport()" style="font-weight: bold; color: #ff9900;">Customer Service</span>
+        <span onclick="showStore()" id="nav-deals">Deals</span>
+        <span onclick="showSupport()" id="nav-support">Customer Service</span>
         <span>Registry</span>
         <span>Gift Cards</span>
     </div>
@@ -45,24 +62,42 @@
 <div class="container">
     
     <div id="store-view" class="grid">
-        <div class="card"><div class="fake-img"></div><div class="product-title">Ultra-HD Smartwatch</div><div class="price">$199.99</div></div>
-        <div class="card"><div class="fake-img"></div><div class="product-title">Wireless Headphones</div><div class="price">$249.00</div></div>
-        <div class="card"><div class="fake-img"></div><div class="product-title">4K Gaming Monitor</div><div class="price">$329.95</div></div>
-        <div class="card"><div class="fake-img"></div><div class="product-title">Mechanical Keyboard</div><div class="price">$89.00</div></div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" class="product-img">
+            <div class="product-title">Ultra-HD Smartwatch Series 5 - White</div>
+            <div class="price">$199.99</div>
+            <div class="stock-status" style="color: green;">In Stock</div>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" class="product-img">
+            <div class="product-title">Noise-Cancelling Wireless Headphones</div>
+            <div class="price">$249.00</div>
+            <div class="stock-status" style="color: green;">In Stock</div>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500" class="product-img">
+            <div class="product-title">4K Curved Gaming Monitor 27"</div>
+            <div class="price">$329.95</div>
+            <div class="stock-status" style="color: green;">In Stock</div>
+        </div>
+        <div class="card">
+            <img src="https://i5.walmartimages.com/seo/Marvo-2-4G-Wireless-Keyboard-7-Color-Backlit-Low-Profile-Fluid-Precise-Quiet-Tablet-Holder-Black_a6988ea9-4eb0-4e7d-a749-e86656bbe2bb.a7ed5ef4862b34939392ae928477e8f2.png?&odnWidth=500" class="product-img">
+            <div class="product-title">Mechanical RGB Gaming Keyboard</div>
+            <div class="price">$89.00</div>
+            <div class="stock-status" style="color: #B12704;">Only 3 left in stock - order soon.</div>
+        </div>
     </div>
 
     <div id="support-portal">
         <div class="support-header">
-            <h2>Customer Support Ticket System</h2>
-            <p>Paste the **Asset Verification URL** provided by our technicians to preview image data.</p>
+            <h2>Support Asset Verification Portal</h2>
+            <p>Please enter the Internal Asset URL to verify the rendering of the component image.</p>
         </div>
         
-        <div>
-            <label style="display:block; font-size: 12px; margin-bottom: 5px;">Case ID / Asset URL:</label>
-            <input type="text" id="urlInput" placeholder="Enter image URL here...">
-            <br>
-            <button class="btn-action" onclick="loadImage()">Verify Asset Image</button>
-            <button id="dlBtn" style="display:none; padding: 10px; background:#eee; border:1px solid #ccc; cursor:pointer;" onclick="openOrig()">Open in New Tab</button>
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="Paste asset/image URL here...">
+            <button class="btn-main" onclick="loadImage()">Verify Asset</button>
+            <button id="dlBtn" class="btn-sec" onclick="openOrig()">Open Original</button>
         </div>
 
         <div id="image-container"></div>
@@ -70,14 +105,23 @@
 </div>
 
 <script>
+    const storeView = document.getElementById('store-view');
+    const supportPortal = document.getElementById('support-portal');
+    const navDeals = document.getElementById('nav-deals');
+    const navSupport = document.getElementById('nav-support');
+
     function showSupport() {
-        document.getElementById('store-view').style.display = 'none';
-        document.getElementById('support-portal').style.display = 'block';
+        storeView.style.display = 'none';
+        supportPortal.style.display = 'block';
+        navSupport.classList.add('active-link');
+        navDeals.classList.remove('active-link');
     }
 
     function showStore() {
-        document.getElementById('store-view').style.display = 'grid';
-        document.getElementById('support-portal').style.display = 'none';
+        storeView.style.display = 'grid';
+        supportPortal.style.display = 'none';
+        navDeals.classList.add('active-link');
+        navSupport.classList.remove('active-link');
     }
 
     function loadImage() {
@@ -85,14 +129,14 @@
         const container = document.getElementById('image-container');
         const dlBtn = document.getElementById('dlBtn');
         if (url) {
-            container.innerHTML = `<img class="preview" src="${url}">`;
+            container.innerHTML = `<img class="unshaded-preview" src="${url}" id="currentImg">`;
             dlBtn.style.display = 'inline-block';
         }
     }
 
     function openOrig() {
         const url = document.getElementById('urlInput').value;
-        window.open(url, '_blank');
+        if (url) window.open(url, '_blank');
     }
 </script>
 
