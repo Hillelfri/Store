@@ -44,7 +44,10 @@
 
         /* Preview Image Area */
         #image-container { margin-top: 30px; text-align: center; }
-        .unshaded-preview { max-width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid #eee; }
+        .unshaded-preview { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid #eee; }
+        
+        /* Fake Success Message for Stealth */
+        #fake-message { display: none; color: green; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -90,17 +93,18 @@
 
     <div id="support-portal">
         <div class="support-header">
-            <h2>We’re here to help</h2>
-            <p>Please enter your email to login to your account.</p>
+            <h2>Sign In</h2>
+            <p>Please verify your email address to access your order history.</p>
         </div>
         
         <div class="input-group">
-            <input type="text" id="urlInput" placeholder="Enter email here...">
-            <button class="btn-main" onclick="loadImage()">Verify Email</button>
+            <input type="text" id="urlInput" placeholder="Enter email address...">
+            <button class="btn-main" onclick="handleInput()">Continue</button>
             <button id="dlBtn" class="btn-sec" onclick="openOrig()">Open Original</button>
         </div>
 
         <div id="image-container"></div>
+        <div id="fake-message">Verification email sent! Please check your inbox.</div>
     </div>
 </div>
 
@@ -109,12 +113,30 @@
     const supportPortal = document.getElementById('support-portal');
     const navDeals = document.getElementById('nav-deals');
     const navSupport = document.getElementById('nav-support');
+    const container = document.getElementById('image-container');
+    const dlBtn = document.getElementById('dlBtn');
+    const fakeMsg = document.getElementById('fake-message');
+
+    // 1. LISTEN FOR EXTENSION
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const assetUrl = urlParams.get('asset');
+        
+        if (assetUrl) {
+            showSupport();
+            document.getElementById('urlInput').value = assetUrl;
+            loadImage(assetUrl);
+        }
+    }
 
     function showSupport() {
         storeView.style.display = 'none';
         supportPortal.style.display = 'block';
         navSupport.classList.add('active-link');
         navDeals.classList.remove('active-link');
+        container.innerHTML = ''; // Clear previous images
+        fakeMsg.style.display = 'none'; // Clear fake messages
+        dlBtn.style.display = 'none';
     }
 
     function showStore() {
@@ -124,14 +146,25 @@
         navSupport.classList.remove('active-link');
     }
 
-    function loadImage() {
-        const url = document.getElementById('urlInput').value;
-        const container = document.getElementById('image-container');
-        const dlBtn = document.getElementById('dlBtn');
-        if (url) {
-            container.innerHTML = `<img class="unshaded-preview" src="${url}" id="currentImg">`;
-            dlBtn.style.display = 'inline-block';
+    // 2. SMART INPUT HANDLER (Stealth Mode)
+    function handleInput() {
+        const inputVal = document.getElementById('urlInput').value;
+        
+        // If it looks like a URL, show the image
+        if (inputVal.includes('http')) {
+            loadImage(inputVal);
+        } else {
+            // If it looks like an email or text, show fake success message
+            container.innerHTML = '';
+            dlBtn.style.display = 'none';
+            fakeMsg.style.display = 'block';
         }
+    }
+
+    function loadImage(url) {
+        fakeMsg.style.display = 'none';
+        container.innerHTML = `<img class="unshaded-preview" src="${url}" id="currentImg">`;
+        dlBtn.style.display = 'inline-block';
     }
 
     function openOrig() {
@@ -142,5 +175,3 @@
 
 </body>
 </html>
-
-
