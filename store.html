@@ -31,7 +31,7 @@
         .price { color: #B12704; font-size: 20px; font-weight: bold; }
         .stock-status { font-size: 12px; margin-top: 5px; }
 
-        /* Hidden Support Portal (The Viewer) */
+        /* Hidden Support Portal */
         #support-portal { display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .support-header { border-bottom: 2px solid #f0f0f0; margin-bottom: 25px; padding-bottom: 15px; }
         .support-header h2 { margin: 0; color: #232f3e; }
@@ -42,11 +42,14 @@
         .btn-main:hover { background: #e2b13c; }
         .btn-sec { padding: 12px 20px; background: #eee; border: 1px solid #ccc; cursor: pointer; border-radius: 4px; margin-left: 10px; display: none; }
 
-        /* Preview Image Area */
-        #image-container { margin-top: 30px; text-align: center; }
+        /* Media Container (Image or Video) */
+        #media-container { margin-top: 30px; text-align: center; }
         .unshaded-preview { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid #eee; }
         
-        /* Fake Success Message for Stealth */
+        /* Video Player Styles */
+        .video-wrapper { position: relative; padding-bottom: 56.25%; /* 16:9 aspect ratio */ height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .video-wrapper iframe, .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
         #fake-message { display: none; color: green; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
@@ -65,30 +68,10 @@
 <div class="container">
     
     <div id="store-view" class="grid">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" class="product-img">
-            <div class="product-title">Ultra-HD Smartwatch Series 5 - White</div>
-            <div class="price">$199.99</div>
-            <div class="stock-status" style="color: green;">In Stock</div>
-        </div>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" class="product-img">
-            <div class="product-title">Noise-Cancelling Wireless Headphones</div>
-            <div class="price">$249.00</div>
-            <div class="stock-status" style="color: green;">In Stock</div>
-        </div>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500" class="product-img">
-            <div class="product-title">4K Curved Gaming Monitor 27"</div>
-            <div class="price">$329.95</div>
-            <div class="stock-status" style="color: green;">In Stock</div>
-        </div>
-        <div class="card">
-            <img src="https://i5.walmartimages.com/seo/Marvo-2-4G-Wireless-Keyboard-7-Color-Backlit-Low-Profile-Fluid-Precise-Quiet-Tablet-Holder-Black_a6988ea9-4eb0-4e7d-a749-e86656bbe2bb.a7ed5ef4862b34939392ae928477e8f2.png?&odnWidth=500" class="product-img">
-            <div class="product-title">Mechanical RGB Gaming Keyboard</div>
-            <div class="price">$89.00</div>
-            <div class="stock-status" style="color: #B12704;">Only 3 left in stock - order soon.</div>
-        </div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" class="product-img"><div class="product-title">Ultra-HD Smartwatch Series 5</div><div class="price">$199.99</div><div class="stock-status" style="color: green;">In Stock</div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" class="product-img"><div class="product-title">Noise-Cancelling Headphones</div><div class="price">$249.00</div><div class="stock-status" style="color: green;">In Stock</div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500" class="product-img"><div class="product-title">4K Curved Gaming Monitor</div><div class="price">$329.95</div><div class="stock-status" style="color: green;">In Stock</div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1587829741301-dc798b83bac1?w=500" class="product-img"><div class="product-title">Mechanical RGB Keyboard</div><div class="price">$89.00</div><div class="stock-status" style="color: #B12704;">Only 3 left!</div></div>
     </div>
 
     <div id="support-portal">
@@ -103,7 +86,7 @@
             <button id="dlBtn" class="btn-sec" onclick="openOrig()">Open Original</button>
         </div>
 
-        <div id="image-container"></div>
+        <div id="media-container"></div>
         <div id="fake-message">Verification email sent! Please check your inbox.</div>
     </div>
 </div>
@@ -113,11 +96,11 @@
     const supportPortal = document.getElementById('support-portal');
     const navDeals = document.getElementById('nav-deals');
     const navSupport = document.getElementById('nav-support');
-    const container = document.getElementById('image-container');
+    const container = document.getElementById('media-container');
     const dlBtn = document.getElementById('dlBtn');
     const fakeMsg = document.getElementById('fake-message');
 
-    // 1. LISTEN FOR EXTENSION
+    // 1. EXTENSION LISTENER
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const assetUrl = urlParams.get('asset');
@@ -125,7 +108,7 @@
         if (assetUrl) {
             showSupport();
             document.getElementById('urlInput').value = assetUrl;
-            loadImage(assetUrl);
+            processMedia(assetUrl);
         }
     }
 
@@ -134,8 +117,8 @@
         supportPortal.style.display = 'block';
         navSupport.classList.add('active-link');
         navDeals.classList.remove('active-link');
-        container.innerHTML = ''; // Clear previous images
-        fakeMsg.style.display = 'none'; // Clear fake messages
+        container.innerHTML = ''; 
+        fakeMsg.style.display = 'none'; 
         dlBtn.style.display = 'none';
     }
 
@@ -146,25 +129,57 @@
         navSupport.classList.remove('active-link');
     }
 
-    // 2. SMART INPUT HANDLER (Stealth Mode)
+    // 2. SMART INPUT HANDLER
     function handleInput() {
-        const inputVal = document.getElementById('urlInput').value;
+        const inputVal = document.getElementById('urlInput').value.trim();
         
-        // If it looks like a URL, show the image
-        if (inputVal.includes('http')) {
-            loadImage(inputVal);
+        // Check if it's a URL
+        if (inputVal.includes('http') || inputVal.includes('www.')) {
+            processMedia(inputVal);
         } else {
-            // If it looks like an email or text, show fake success message
+            // Stealth Mode: Fake Email Success
             container.innerHTML = '';
             dlBtn.style.display = 'none';
             fakeMsg.style.display = 'block';
         }
     }
 
-    function loadImage(url) {
+    // 3. MEDIA PROCESSOR (Video vs Image)
+    function processMedia(url) {
         fakeMsg.style.display = 'none';
-        container.innerHTML = `<img class="unshaded-preview" src="${url}" id="currentImg">`;
         dlBtn.style.display = 'inline-block';
+        
+        let embedHtml = '';
+
+        // Case A: YouTube
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            let videoId = '';
+            if (url.includes('youtu.be')) {
+                videoId = url.split('/').pop();
+            } else {
+                videoId = url.split('v=')[1];
+                const ampersandPosition = videoId.indexOf('&');
+                if (ampersandPosition !== -1) {
+                    videoId = videoId.substring(0, ampersandPosition);
+                }
+            }
+            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+        } 
+        // Case B: Vimeo
+        else if (url.includes('vimeo.com')) {
+            const videoId = url.split('/').pop();
+            embedHtml = `<div class="video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" allowfullscreen></iframe></div>`;
+        }
+        // Case C: Direct Video File (.mp4, .webm)
+        else if (url.match(/\.(mp4|webm|ogg)$/i)) {
+            embedHtml = `<div class="video-wrapper"><video controls autoplay><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
+        }
+        // Case D: It's an Image
+        else {
+            embedHtml = `<img class="unshaded-preview" src="${url}" id="currentImg">`;
+        }
+
+        container.innerHTML = embedHtml;
     }
 
     function openOrig() {
