@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2c3e50,#34495e,#2c3e50);font-family:Arial,sans-serif;padding:20px}h1{color:#ecf0f1;font-size:2.5rem;margin-bottom:10px}.stats{display:flex;gap:30px;margin-bottom:20px;color:#ecf0f1;font-size:1.2rem}.stats span{background:rgba(255,255,255,.15);padding:10px 20px;border-radius:8px}.game-container{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;max-width:500px;width:100%}.card{aspect-ratio:1;perspective:1000px;cursor:pointer}.card-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}.card.flipped .card-inner,.card.matched .card-inner{transform:rotateY(180deg)}.card-front,.card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;box-shadow:0 3px 10px rgba(0,0,0,.2)}.card-front{background:linear-gradient(145deg,#3498db,#2980b9);color:#fff}.card-front::after{content:'?';font-size:2.5rem;font-weight:700}.card-back{background:linear-gradient(145deg,#ecf0f1,#bdc3c7);transform:rotateY(180deg);border:2px solid #3498db}.card:hover .card-inner{box-shadow:0 0 15px rgba(52,152,219,.4)}.card.matched .card-back{border-color:#27ae60}.btn{margin-top:25px;padding:15px 40px;font-size:1.2rem;background:#3498db;color:#fff;border:none;border-radius:25px;cursor:pointer;transition:background .3s}.btn:hover{background:#2980b9}.win-message{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#ecf0f1;padding:40px 60px;border-radius:15px;text-align:center;z-index:100}.win-message.show{display:block}.win-message h2{color:#27ae60;font-size:2rem;margin-bottom:15px}.win-message p{color:#2c3e50;font-size:1.2rem;margin-bottom:20px}.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99}.overlay.show{display:block}
+    </style>
+</head>
+<body>
+    <h1>Memory Game</h1>
+    <div class="stats">
+        <span>Moves: <b id="moves">0</b></span>
+        <span>Pairs: <b id="pairs">0</b>/8</span>
+    </div>
+    <div class="game-container" id="gameContainer"></div>
+    <button class="btn" onclick="restartGame()">New Game</button>
+    <div class="overlay" id="overlay"></div>
+    <div class="win-message" id="winMessage">
+        <h2>You Won!</h2>
+        <p>Completed in <span id="finalMoves">0</span> moves!</p>
+        <button class="btn" onclick="restartGame()">Play Again</button>
+    </div>
+    <script>
+        const s=['A','B','C','D','E','F','G','H'];let f=[],m=0,p=0,l=false;
+        function x(a){let r=a.slice();for(let i=r.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+        function c(s,i){let d=document.createElement('div');d.className='card';d.dataset.s=s;d.innerHTML='<div class="card-inner"><div class="card-front"></div><div class="card-back">'+s+'</div></div>';d.onclick=()=>k(d);return d}
+        function k(d){if(l||d.classList.contains('flipped')||d.classList.contains('matched'))return;d.classList.add('flipped');f.push(d);if(f.length===2){m++;document.getElementById('moves').textContent=m;t()}}
+        function t(){l=true;let a=f[0],b=f[1],g=a.dataset.s===b.dataset.s;if(g){a.classList.add('matched');b.classList.add('matched');p++;document.getElementById('pairs').textContent=p;f=[];l=false;if(p===8)setTimeout(w,500)}else{setTimeout(()=>{a.classList.remove('flipped');b.classList.remove('flipped');f=[];l=false},1000)}}
+        function w(){document.getElementById('finalMoves').textContent=m;document.getElementById('overlay').classList.add('show');document.getElementById('winMessage').classList.add('show')}
+        function restartGame(){f=[];m=0;p=0;l=false;document.getElementById('moves').textContent='0';document.getElementById('pairs').textContent='0';document.getElementById('overlay').classList.remove('show');document.getElementById('winMessage').classList.remove('show');let g=document.getElementById('gameContainer');g.innerHTML='';let d=x(s.concat(s));d.forEach((s,i)=>{let a=c(s,i);g.appendChild(a)})}restartGame();
+    </script>
+</body>
+</html>
