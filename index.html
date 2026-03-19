@@ -7,9 +7,10 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
-            --primary-blue: #232f3e;
+            --primary-blue: #0f172a;
             --accent-orange: #ff9900;
-            --neon-blue: #00f2ff;
+            --neon-cyan: #00f2ff;
+            --glass: rgba(15, 23, 42, 0.85);
         }
 
         body {
@@ -18,79 +19,79 @@
             background-color: #0b0e14;
             color: white;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        /* Animated Circuit Background */
-        .bg-canvas {
-            position: fixed;
+        /* Interactive Data Mesh Canvas */
+        #data-mesh {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.2;
         }
 
         header { 
-            background: var(--primary-blue); 
+            background: #232f3e; 
             padding: 10px 40px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
             position: relative;
             z-index: 100;
-            border-bottom: 1px solid var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.3);
         }
 
         .logo { height: 50px; cursor: pointer; }
 
         .nav-links { display: flex; gap: 25px; font-size: 14px; color: white; }
-        .nav-links span { cursor: pointer; transition: 0.2s; }
-        .nav-links span:hover { color: var(--accent-orange); }
 
         .hero-container {
             position: relative;
             z-index: 10;
+            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            padding: 80px 20px;
-            text-align: center;
+            padding: 0 20px;
         }
 
         .welcome-card {
-            background: rgba(35, 47, 62, 0.85);
+            background: var(--glass);
             padding: 60px;
             border-radius: 20px;
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
-            max-width: 700px;
-            backdrop-filter: blur(12px);
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            text-align: center;
         }
 
         h1 { 
-            font-size: 52px; 
+            font-size: 56px; 
             margin: 0; 
             color: white;
-            text-shadow: 0 0 10px var(--neon-blue);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            font-weight: 900;
         }
 
         h2 { 
             color: var(--accent-orange); 
-            margin-top: 10px; 
+            margin-top: 15px; 
             letter-spacing: 1px;
-            font-weight: 400;
+            font-weight: 500;
+            font-size: 24px;
         }
 
         p { 
             color: #d1d1d1; 
-            line-height: 1.8; 
-            margin: 25px 0;
-            font-size: 1.1rem;
+            line-height: 1.6; 
+            margin: 30px 0;
+            font-size: 1.2rem;
         }
 
         .btn-store {
@@ -105,6 +106,8 @@
             box-shadow: 0 0 15px rgba(255, 153, 0, 0.4);
             transition: 0.3s;
             font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
         }
 
         .btn-store:hover {
@@ -112,31 +115,16 @@
             box-shadow: 0 0 25px rgba(255, 153, 0, 0.6);
             background: #ffb84d;
         }
-
-        .technical-footer {
-            margin-top: 40px;
-            font-family: monospace;
-            font-size: 12px;
-            color: #555;
-            background: rgba(0,0,0,0.5);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: left;
-            border-left: 3px solid var(--neon-blue);
-        }
-
-        .cursor { animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <canvas id="circuit" class="bg-canvas"></canvas>
+    <canvas id="data-mesh"></canvas>
 
     <header>
-        <img src="logo.png" alt="ElectroTech Logo" class="logo">
+        <img src="logo.png" alt="ElectroTech Logo" class="logo" onclick="window.location.reload()">
         <div class="nav-links">
-            <span onclick="alert('Your cart is currently empty.')" style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
+            <span onclick="alert('Your cart is currently empty.')" style="font-weight: bold; display: flex; align-items: center; gap: 5px; cursor: pointer;">
                 🛒 Cart (0)
             </span>
         </div>
@@ -153,62 +141,85 @@
             </p>
 
             <a href="store.html" class="btn-store">Navigate to Storefront</a>
-
-            
         </div>
     </div>
 
     <script>
-        // Interactive Network/Circuit Background
-        const canvas = document.getElementById('circuit');
+        const canvas = document.getElementById('data-mesh');
         const ctx = canvas.getContext('2d');
+        let mouse = { x: null, y: null };
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const dots = [];
-        for(let i = 0; i < 60; i++) {
-            dots.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4
-            });
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 242, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        function draw() {
+        const particles = Array.from({ length: 80 }, () => new Particle());
+
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = '#00f2ff';
-            ctx.lineWidth = 0.6;
-
-            dots.forEach(dot => {
-                dot.x += dot.vx;
-                dot.y += dot.vy;
-
-                if(dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
-                if(dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
-
-                dots.forEach(other => {
-                    const dist = Math.sqrt((dot.x - other.x)**2 + (dot.y - other.y)**2);
-                    if(dist < 180) {
+            particles.forEach((p, i) => {
+                p.update();
+                p.draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = p.x - particles[j].x;
+                    const dy = p.y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
                         ctx.beginPath();
-                        ctx.globalAlpha = 1 - (dist / 180);
-                        ctx.moveTo(dot.x, dot.y);
-                        ctx.lineTo(other.x, other.y);
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
                     }
-                });
+                }
+                if (mouse.x) {
+                    const mdx = p.x - mouse.x;
+                    const mdy = p.y - mouse.y;
+                    const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mDist < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 153, 0, ${1 - mDist/120})`;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
             });
-            ctx.globalAlpha = 1.0;
-            requestAnimationFrame(draw);
+            requestAnimationFrame(animate);
         }
+        animate();
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
-
-        draw();
     </script>
 </body>
 </html>
