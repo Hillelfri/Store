@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM CRITICAL | ElectroTech 404</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --primary-blue: #232f3e;
+            --accent-orange: #ff9900;
+            --error-red: #ff4d4d;
+            --neon-blue: #00f2ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Animated Circuit Background */
+        .bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .error-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(35, 47, 62, 0.9);
+            padding: 60px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            max-width: 550px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .glitch-wrapper {
+            font-size: 100px;
+            font-weight: 900;
+            line-height: 1;
+            position: relative;
+            color: white;
+            margin: 0;
+        }
+
+        /* Glitch Effect */
+        .glitch-wrapper::before, .glitch-wrapper::after {
+            content: "404";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-wrapper::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--error-red);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-wrapper::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--neon-blue);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 1s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 20px, 0); }
+            20% { clip: rect(80px, 9999px, 90px, 0); }
+            40% { clip: rect(30px, 9999px, 40px, 0); }
+            60% { clip: rect(60px, 9999px, 70px, 0); }
+            80% { clip: rect(15px, 9999px, 25px, 0); }
+            100% { clip: rect(50px, 9999px, 60px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(30px, 9999px, 40px, 0); }
+            100% { clip: rect(80px, 9999px, 90px, 0); }
+        }
+
+        h2 { color: var(--accent-orange); margin-top: 20px; letter-spacing: 2px; }
+        p { color: #d1d1d1; line-height: 1.6; }
+
+        .btn-reboot {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--accent-orange);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn-reboot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.6);
+            background: #ffb84d;
+        }
+
+        .status-bar {
+            margin-top: 25px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #555;
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .cursor { animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <canvas id="circuit" class="bg-canvas"></canvas>
+
+    <div class="error-card">
+        <h1 class="glitch-wrapper">404</h1>
+        <h2>SYSTEM_COMPONENT_MISSING</h2>
+        
+        <p>
+            It looks like the requested module has short-circuited or was never plugged in. 
+            Our engineers are currently rebooting the local node.
+        </p>
+
+        <a href="store.html" class="btn-reboot">Initiate System Reboot</a>
+
+        <div class="status-bar">
+            > Locating asset... FAILED<br>
+            > Checking Monroe_NY_Server... TIMEOUT<br>
+            > Error: Null Reference Exception at ElectroTech.Main<span class="cursor">_</span>
+        </div>
+    </div>
+
+    <script>
+        // Fun Matrix-style circuit background
+        const canvas = document.getElementById('circuit');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const dots = [];
+        for(let i = 0; i < 50; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#00f2ff';
+            ctx.lineWidth = 0.5;
+
+            dots.forEach(dot => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+                if(dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+                if(dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+
+                dots.forEach(other => {
+                    const dist = Math.sqrt((dot.x - other.x)**2 + (dot.y - other.y)**2);
+                    if(dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(dot.x, dot.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
