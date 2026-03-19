@@ -3,62 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found | ElectroTech</title>
+    <title>ElectroTech | Next-Gen Electronics</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f4f4f4; color: #333; text-align: center; }
-        header { background: #232f3e; padding: 10px 40px; text-align: left; }
-        .logo { height: 50px; }
-        
-        .error-container { max-width: 600px; margin: 80px auto; padding: 40px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #232f3e; font-size: 48px; margin-bottom: 10px; }
-        h2 { color: #555; margin-bottom: 20px; }
-        p { color: #777; line-height: 1.6; margin-bottom: 30px; }
-        
-        .btn-home { 
-            padding: 12px 30px; 
-            background: #f0c14b; 
-            border: 1px solid #a88734; 
-            text-decoration: none; 
-            color: #111; 
-            font-weight: bold; 
-            border-radius: 4px; 
-            transition: 0.2s; 
+        :root {
+            --primary-blue: #232f3e;
+            --accent-orange: #ff9900;
+            --neon-blue: #00f2ff;
         }
-        .btn-home:hover { background: #e2b13c; }
-        
-        .technical-details { margin-top: 40px; font-family: monospace; font-size: 12px; color: #aaa; border-top: 1px solid #eee; pt-20px; padding-top: 20px; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Circuit Background */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.2;
+        }
+
+        header { 
+            background: var(--primary-blue); 
+            padding: 10px 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            position: relative;
+            z-index: 100;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .logo { height: 50px; cursor: pointer; }
+
+        .nav-links { display: flex; gap: 25px; font-size: 14px; color: white; }
+        .nav-links span { cursor: pointer; transition: 0.2s; }
+        .nav-links span:hover { color: var(--accent-orange); }
+
+        .hero-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .welcome-card {
+            background: rgba(35, 47, 62, 0.85);
+            padding: 60px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
+            max-width: 700px;
+            backdrop-filter: blur(12px);
+        }
+
+        h1 { 
+            font-size: 52px; 
+            margin: 0; 
+            color: white;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        h2 { 
+            color: var(--accent-orange); 
+            margin-top: 10px; 
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        p { 
+            color: #d1d1d1; 
+            line-height: 1.8; 
+            margin: 25px 0;
+            font-size: 1.1rem;
+        }
+
+        .btn-store {
+            display: inline-block;
+            padding: 18px 45px;
+            background: var(--accent-orange);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.4);
+            transition: 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn-store:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.6);
+            background: #ffb84d;
+        }
+
+        .technical-footer {
+            margin-top: 40px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #555;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .cursor { animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-<header>
-    <img src="logo.png" alt="ElectroTech Logo" class="logo" onclick="showStore()">
-    <div class="nav-links">
-        <span onclick="showStore()" id="nav-deals">Deals</span>
-        <span onclick="showSupport()" id="nav-support">Customer Service</span>
-        <span>Registry</span>
-        <span>Gift Cards</span>
-        <span onclick="alert('Your cart is currently empty.')" style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
-            🛒 Cart (0)
-        </span>
+    <canvas id="circuit" class="bg-canvas"></canvas>
+
+    <header>
+        <img src="logo.png" alt="ElectroTech Logo" class="logo">
+        <div class="nav-links">
+            <span>Deals</span>
+            <span>Customer Service</span>
+            <span>Registry</span>
+            <span>Gift Cards</span>
+            <span onclick="alert('Your cart is currently empty.')" style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
+                🛒 Cart (0)
+            </span>
+        </div>
+    </header>
+
+    <div class="hero-container">
+        <div class="welcome-card">
+            <h1>Welcome To ElectroTech</h1>
+            <h2>Precision Engineered. Digitally Delivered.</h2>
+            
+            <p>
+                Step into our digital warehouse. Whether you are looking for high-performance components, 
+                next-gen smart devices, or specialized technical gear, we are here to help you power your future.
+            </p>
+
+            <a href="store.html" class="btn-store">Navigate to Storefront</a>
+
+            
+        </div>
     </div>
-</header>
 
-<div class="error-container">
-    <h1>Welcome To ElectroTech</h1>
-    <h2>We are here to help you...</h2>
-    <p>The page or product specification you are looking for has been moved, renamed, or is currently out of stock in our digital warehouse.</p>
-    
-    <a href="store.html" class="btn-home">Navigate to Storefront</a>
+    <script>
+        // Interactive Network/Circuit Background
+        const canvas = document.getElementById('circuit');
+        const ctx = canvas.getContext('2d');
 
-    <div class="technical-details">
-        ERROR_CODE: 0x404_NULL_REFERENCE<br>
-        SERVER: ElectroTech-Edge-01
-    </div>
-</div>
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
+        const dots = [];
+        for(let i = 0; i < 60; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#00f2ff';
+            ctx.lineWidth = 0.6;
+
+            dots.forEach(dot => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+                if(dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+                if(dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+
+                dots.forEach(other => {
+                    const dist = Math.sqrt((dot.x - other.x)**2 + (dot.y - other.y)**2);
+                    if(dist < 180) {
+                        ctx.beginPath();
+                        ctx.globalAlpha = 1 - (dist / 180);
+                        ctx.moveTo(dot.x, dot.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            ctx.globalAlpha = 1.0;
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        draw();
+    </script>
 </body>
-
 </html>
-
-
