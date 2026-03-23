@@ -54,6 +54,66 @@
         .video-wrapper iframe, .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
         #fake-message { display: none; color: green; margin-top: 20px; font-weight: bold; }
+        /* --- CUSTOM MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #00f2ff;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.3);
+            text-align: center;
+            max-width: 400px;
+            animation: slideUp 0.3s ease-out;
+            color: white;
+        }
+        
+        .modal-content h3 {
+            margin-top: 0;
+            color: white;
+            text-shadow: 0 0 10px #00f2ff;
+            font-size: 24px;
+        }
+        
+        .modal-content p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #d1d1d1;
+        }
+        
+        .btn-modal-close {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ff9900;
+            color: #000;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-modal-close:hover {
+            transform: scale(1.05);
+            background: #ffb84d;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -65,7 +125,7 @@
         <span onclick="showSupport()" id="nav-support">Customer Service</span>
         <span>Registry</span>
         <span>Gift Cards</span>
-        <span onclick="alert('Your cart is currently empty.')" style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
+        <span onclick="openCartModal()" style="font-weight: bold; display: flex; align-items: center; gap: 5px; cursor: pointer;">
             🛒 Cart (0)
         </span>
     </div>
@@ -262,6 +322,21 @@
         const url = document.getElementById('urlInput').value;
         if (url) window.open(url, '_blank');
     }
+    function openCartModal() {
+        document.getElementById('cartModal').style.display = 'flex';
+    }
+    
+    function closeCartModal() {
+        document.getElementById('cartModal').style.display = 'none';
+    }
+    
+    // Close modal if user clicks on the dark background
+    window.onclick = function(event) {
+        const modal = document.getElementById('cartModal');
+        if (event.target === modal) {
+            closeCartModal();
+        }
+    }
 </script>
 <footer style="text-align: center; padding: 40px 20px 20px; color: #999; font-size: 13px; margin-top: 50px; border-top: 1px solid #e0e0e0;">
         <span ondblclick="document.getElementById('hidden-arcade').style.display='block'" style="cursor: default;">&copy; 2026</span> ElectroTech. All rights reserved.
@@ -278,6 +353,13 @@
         <a href="wolf_&_sheep.html" style="color: #f0c14b; text-decoration: none; margin: 0 10px;">W&S-Logic</a>
         <span onclick="document.getElementById('hidden-arcade').style.display='none'" style="color: red; cursor: pointer; margin-left: 15px;">[X]</span>
     </div>
+    <div id="cartModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>YOUR CART IS EMPTY</h3>
+        <p>It looks like you haven't added anything to your cart yet. Explore our latest deals and premium electronics to find exactly what you're looking for.</p>
+        <button class="btn-modal-close" onclick="closeCartModal()">Acknowledge</button>
+    </div>
+</div>
 </body>
 </html>
 
