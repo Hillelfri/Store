@@ -36,6 +36,107 @@
 
         /* Hidden Support Portal */
         #support-portal { display: none; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        /* --- UPGRADED SUPPORT PORTAL STYLES --- */
+        #support-portal { 
+            display: none; 
+            background: rgba(35, 47, 62, 0.95); 
+            padding: 50px; 
+            border-radius: 20px; 
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15); 
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            margin: 40px auto;
+            color: white;
+        }
+
+        .support-header { 
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2); 
+            margin-bottom: 35px; 
+            padding-bottom: 20px; 
+            text-align: center;
+        }
+
+        .support-header h2 { 
+            margin: 0; 
+            color: #00f2ff; 
+            font-size: 28px; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .support-header p {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .input-group { 
+            background: rgba(0, 0, 0, 0.3); 
+            padding: 30px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #urlInput { 
+            width: 100%; 
+            max-width: 500px;
+            padding: 15px; 
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #urlInput:focus {
+            border-color: #00f2ff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .btn-main { 
+            padding: 15px 40px; 
+            background: #ff9900; 
+            border: none; 
+            cursor: pointer; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover { 
+            background: #ffb84d; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+        }
+
+        .btn-sec { 
+            padding: 10px 20px; 
+            background: transparent; 
+            border: 1px solid #00f2ff; 
+            color: #00f2ff;
+            cursor: pointer; 
+            border-radius: 4px; 
+            margin-top: 10px;
+            display: none; 
+        }
+
+        #fake-message { 
+            display: none; 
+            color: #00ff88; 
+            margin-top: 25px; 
+            font-weight: bold; 
+            text-align: center;
+            font-family: monospace;
+        }
         .support-header { border-bottom: 2px solid #f0f0f0; margin-bottom: 25px; padding-bottom: 15px; }
         .support-header h2 { margin: 0; color: #232f3e; }
         
@@ -206,18 +307,20 @@
 
     <div id="support-portal">
         <div class="support-header">
-            <h2>Sign In</h2>
-            <p>Please verify your email address to access your order history.</p>
+            <h2>System Authentication</h2>
+            <p>Accessing the ElectroTech Node-01 Registry. Please verify your credentials.</p>
         </div>
         
         <div class="input-group">
-            <input type="text" id="urlInput" placeholder="Enter email address...">
-            <button class="btn-main" onclick="handleInput()">Continue</button>
-            <button id="dlBtn" class="btn-sec" onclick="openOrig()">Open Original</button>
+            <input type="text" id="urlInput" placeholder="Enter administrative email address...">
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-main" onclick="handleInput()">Continue</button>
+                <button id="dlBtn" class="btn-sec" onclick="openOrig()">Open Original</button>
+            </div>
         </div>
 
         <div id="media-container"></div>
-        <div id="fake-message">Verification email sent! Please check your inbox.</div>
+        <div id="fake-message">> AUTHENTICATION_PENDING... Check inbox for verification link.</div>
     </div>
 </div>
 
