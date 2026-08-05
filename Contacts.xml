@@ -1,28 +1,116 @@
-<DirectoryEntry><Name>Yehuda Wiener</Name><Telephone>845-270-4921</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>David Pilchick</Name><Telephone>3479073550</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Shmiel Weber</Name><Telephone>8452743345</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Sruly Green</Name><Telephone>8455408295</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Joel Mutzen</Name><Telephone>8455020041</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Gavriel Rosenberg</Name><Telephone>8455486195</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Moshe Kupperman</Name><Telephone>8452745787</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>yoel honig</Name><Telephone>8455380041</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Mendel Zafir</Name><Telephone>8455871204</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>R. Graus</Name><Telephone>3476282637</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Esther Lebovitz</Name><Telephone>914-306-0239</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Leah Kohn</Name><Telephone>84526399641</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yitty Katz</Name><Telephone>8452881717</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Joel Freund</Name><Telephone>845-642-2313</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yaakov Rorenberg</Name><Telephone>845 612 1027</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Gitty Lichtenstein</Name><Telephone>845-637-6603</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Mrs. Herzog</Name><Telephone>845-548-1868</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yoel Hillel Friedman</Name><Telephone>718-737-9558 Ext 107</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Rivky Kraus</Name><Telephone>7187379558</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Shea friedman</Name><Telephone>8456532180</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Malka Singer</Name><Telephone>6466477711</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Libby</Name><Telephone>718-737-9558</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yosef Dov Perlstein</Name><Telephone>8455586699</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Charnie Glick</Name><Telephone>8456378462</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Faigy Hass</Name><Telephone>8453522644</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yoel Nuchem Stein</Name><Telephone>8452130321</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Yechezkel Wagner</Name><Telephone>8458004392</Telephone></DirectoryEntry>
-<DirectoryEntry><Name>Mrs Derbaremdiger</Name><Telephone>8455796363</Telephone></DirectoryEntry>
+<?xml version="1.0" encoding="utf-8"?>
+<YealinkIPPhoneDirectory>
+    <DirectoryEntry>
+        <Name>Yehuda Wiener</Name>
+        <Telephone>845-270-4921</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>David Pilchick</Name>
+        <Telephone>3479073550</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Shmiel Weber</Name>
+        <Telephone>8452743345</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Sruly Green</Name>
+        <Telephone>8455408295</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Joel Mutzen</Name>
+        <Telephone>8455020041</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Gavriel Rosenberg</Name>
+        <Telephone>8455486195</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Moshe Kupperman</Name>
+        <Telephone>8452745787</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>yoel honig</Name>
+        <Telephone>8455380041</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Mendel Zafir</Name>
+        <Telephone>8455871204</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>R. Graus</Name>
+        <Telephone>3476282637</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Esther Lebovitz</Name>
+        <Telephone>914-306-0239</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Leah Kohn</Name>
+        <Telephone>84526399641</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yitty Katz</Name>
+        <Telephone>8452881717</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Joel Freund</Name>
+        <Telephone>845-642-2313</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yaakov Rorenberg</Name>
+        <Telephone>845 612 1027</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Gitty Lichtenstein</Name>
+        <Telephone>845-637-6603</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Mrs. Herzog</Name>
+        <Telephone>845-548-1868</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yoel Hillel Friedman</Name>
+        <!-- Replaced "Ext 107" with commas for a dialing pause -->
+        <Telephone>718-737-9558,,107</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Rivky Kraus</Name>
+        <Telephone>7187379558</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Shea friedman</Name>
+        <Telephone>8456532180</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Malka Singer</Name>
+        <Telephone>6466477711</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Libby</Name>
+        <Telephone>718-737-9558</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yosef Dov Perlstein</Name>
+        <Telephone>8455586699</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Charnie Glick</Name>
+        <Telephone>8456378462</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Faigy Hass</Name>
+        <Telephone>8453522644</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yoel Nuchem Stein</Name>
+        <Telephone>8452130321</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Yechezkel Wagner</Name>
+        <Telephone>8458004392</Telephone>
+    </DirectoryEntry>
+    <DirectoryEntry>
+        <Name>Mrs Derbaremdiger</Name>
+        <Telephone>8455796363</Telephone>
+    </DirectoryEntry>
+</YealinkIPPhoneDirectory>
