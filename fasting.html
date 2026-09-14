@@ -433,7 +433,7 @@
         food.classList.add('food-item');
         food.innerText = safeFoods[Math.floor(Math.random() * safeFoods.length)];
         food.style.left = Math.random() * 90 + 'vw';
-        const duration = Math.random() * 10 + 15;
+        const duration = Math.random() * 4 + 5;
         food.style.animationDuration = duration + 's';
 
         food.addEventListener('mousedown', function(e) {
@@ -447,7 +447,7 @@
         setTimeout(() => { if (food.parentElement) food.remove(); }, duration * 1000);
     }
 
-    setInterval(createFloatingFood, 1000);
+    setInterval(createFloatingFood, 300);
 
     // subtle tilt/parallax on the card based on pointer position
     const card = document.getElementById('card');
