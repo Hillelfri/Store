@@ -470,7 +470,7 @@
 
         // Case A: Any YouTube link (watch, youtu.be, embed, shorts, live) - normalize to a clean embed URL
         if (youTubeId) {
-            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${youTubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${youTubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
         }
 
         // Case B: Some other already-embeddable link (Vimeo/etc)
