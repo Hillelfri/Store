@@ -452,6 +452,13 @@
     }
 
 // 3. MEDIA PROCESSOR (Video vs Image)
+    // Pulls the 11-character video ID out of any YouTube URL shape:
+    // watch?v=ID, youtu.be/ID, /embed/ID, /shorts/ID, /live/ID, with or without extra query params.
+    function getYouTubeId(url) {
+        const match = url.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        return match ? match[1] : null;
+    }
+
     function processMedia(url) {
         fakeMsg.style.display = 'none';
         dlBtn.style.display = 'none'; // Hide download button for videos
@@ -459,26 +466,16 @@
         const container = document.getElementById('media-container');
         let embedHtml = '';
 
-        // Case A: It is ALREADY an embed link (YouTube/Vimeo/etc)
-        if (url.includes('/embed/')) {
-             embedHtml = `<div class="video-wrapper"><iframe src="${url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        const youTubeId = getYouTubeId(url);
+
+        // Case A: Any YouTube link (watch, youtu.be, embed, shorts, live) - normalize to a clean embed URL
+        if (youTubeId) {
+            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${youTubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
         }
-        
-        // Case B: Standard YouTube Link (watch?v=...)
-        else if (url.includes('youtube.com') && url.includes('v=')) {
-            let videoId = url.split('v=')[1];
-            const ampersandPosition = videoId.indexOf('&');
-            if (ampersandPosition !== -1) {
-                videoId = videoId.substring(0, ampersandPosition);
-            }
-            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-        } 
-        
-        // Case C: Shortened YouTube Link (youtu.be/...)
-        else if (url.includes('youtu.be')) {
-            let videoId = url.split('/').pop();
-            if (videoId.includes('?')) videoId = videoId.split('?')[0];
-            embedHtml = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+
+        // Case B: Some other already-embeddable link (Vimeo/etc)
+        else if (url.includes('/embed/')) {
+             embedHtml = `<div class="video-wrapper"><iframe src="${url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
         }
         
         // Case D: Direct Video File (.mp4, .webm)
